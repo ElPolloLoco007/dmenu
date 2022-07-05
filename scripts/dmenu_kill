@@ -1,0 +1,7 @@
+#!/bin/bash
+
+lines="-g 5 -l 15"
+selected="$(ps -a -u $USER | dmenu -i -p "kill" $lines | awk '{print $1" "$4}')"; 
+selpid="$(awk '{print $1}' <<< $selected)"; 
+kill -9 $selpid
+exit 0

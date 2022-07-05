@@ -1,0 +1,15 @@
+#!/bin/zsh
+
+choices="dual\nhdmi\nlaptop\nmanual"
+
+chosen=$(echo -e "$choices" | dmenu -i)
+
+case "$chosen" in
+    dual) st -e xrandr --output eDP-1 --auto --output HDMI-1 --auto --primary --right-of eDP-1;
+          xdotool mousemove --screen 0 3000 500 ;;
+    hdmi) st -e xrandr --output HDMI-1 --auto --output eDP-1 --off ;;
+    laptop) st -e xrandr --output eDP-1 --auto --output HDMI-1 --off ;;
+    manual) st -e arandr ;;
+esac
+
+nitrogen --restore
