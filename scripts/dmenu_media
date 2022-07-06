@@ -1,13 +1,19 @@
-#/bin/sh
+#!/bin/bash
+function media_menu {
+    x="$(echo -e "kvf\nradio" | dmenu -z 295 -p "media")"
+    if [ "$x" == 'kvf' ]; then
+        xdotool key alt+b
+        mpv 'https://play.kringvarp.fo/redirect/kvf/_definst_/720?type=m3u8'
+        trap "xdotool key alt+b" INT
+    fi
+    if [ "$x" == 'radio' ]; then
+        alacritty --class radio -e pyradio
+    fi
+}
 
-x="$(echo -e "kvf\nradio" | dmenu)"
-echo $x
-if [ "$x" == 'kvf' ]; then
-    # #xdotool key alt+b
-    mpv 'https://play.kringvarp.fo/redirect/kvf/_definst_/720?type=m3u8'
-    trap "xdotool key alt+b" INT
-fi
-if [ "$x" == 'radio' ]; then
-    # #xdotool key alt+b
-    alacritty --class radio -e pyradio
-fi
+case $BUTTON in
+1)
+    media_menu
+    ;;
+3) alacritty -e code "$0" ;;
+esac
