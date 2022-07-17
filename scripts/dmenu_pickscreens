@@ -45,7 +45,7 @@ function screens {
             xrandr --output "$monitor1" --off --output "$monitor2" --off --output "$monitor3" --auto
             setxkbmap -option altwin:swap_alt_win &
         fi
-        echo "" >'/suckless/dmenu/data/screenSelected'
+        echo "" $(optimus-manager --status | awk 'NR==3 { print $5 }')>'/suckless/dmenu/data/screenSelected'
 
     fi
 
@@ -53,7 +53,7 @@ function screens {
         xrandr --output "$monitor1" --mode 1440x900 --pos 0x0 --rotate normal --output "$monitor2" --mode 1920x1080 --pos 1440x0 --rotate normal --output "$monitor3" --mode 1920x1080 --pos 3360x0
         xdotool mousemove --screen 0 2400 540 &
         xdotool click 1 &
-        echo "" >'/suckless/dmenu/data/screenSelected'
+        echo "" $(optimus-manager --status | awk 'NR==3 { print $5 }')>'/suckless/dmenu/data/screenSelected'
 
     fi
 
@@ -61,12 +61,12 @@ function screens {
         xrandr --output "$monitor1" --off --output "$monitor2" --mode 1920x1080 --pos 0x0 --rotate normal --output "$monitor3" --mode 1920x1080 --pos 1920x0 --rotate normal
         xdotool mousemove --screen 0 960 540 &
         xdotool click 1 &
-        echo "" >'/suckless/dmenu/data/screenSelected'
+        echo "" $(optimus-manager --status | awk 'NR==3 { print $5 }')>'/suckless/dmenu/data/screenSelected'
     fi
 
     if [ "$x" == '' ]; then
         xrandr --output "$monitor2" --off --output "$monitor1" --mode 1920x1080 --pos 0x0 --rotate normal --output "$monitor3" --mode 1920x1080 --pos 1920x0 --rotate normal
-        echo "" >'/suckless/dmenu/data/screenSelected'
+        echo "" $(optimus-manager --status | awk 'NR==3 { print $5 }')>'/suckless/dmenu/data/screenSelected'
     fi
 }
 
@@ -75,7 +75,20 @@ case $BUTTON in
     screens
     dwm_wallpaper
     ;;
-3) alacritty -e code "$0" ;;
+3)
+    gfx="$(optimus-manager --status | awk 'NR==3 { print $5 }')"
+
+    if [ "$gfx" == "nvidia" ]; then
+        driver="hybrid"
+    else
+        driver="nvidia"
+    fi
+
+    if zenity --question --text="Do you want to change to $driver ?"; then
+        optimus-manager --switch $driver --no-confirm
+        echo "logout and write /usr/bin/prime-switch"
+    fi
+    ;;
 esac
 
 cat "/suckless/dmenu/data/screenSelected"

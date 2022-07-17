@@ -7,7 +7,7 @@ function media_menu {
         trap "xdotool key alt+b" INT
     fi
     if [ "$x" == 'radio' ]; then
-        alacritty --class radio -e pyradio
+        alacritty --class radio -e radio
     fi
 }
 
