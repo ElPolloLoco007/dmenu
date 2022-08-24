@@ -2,8 +2,8 @@
 
 x="$(echo -e "dwarf fortress\ncataclysm" | dmenu -z 295 -p "Linux Games")"
     if [ "$x" == 'dwarf fortress' ]; then
-        dwarffortress
-        dwarftherapist
+        ps -C dwarftherapist >/dev/null && echo "Running" || dwarftherapist &
+        ps -C Dwarf_Fortress >/dev/null && echo "Running" || dwarffortress
     fi
     if [ "$x" == 'cataclysm' ]; then
         alacritty --class games -e cataclysm
