@@ -50,7 +50,7 @@ function screens {
     fi
 
     if [ "$x" == '' ]; then
-        xrandr --output "$monitor1" --mode 1440x900 --pos 0x0 --rotate normal --output "$monitor2" --mode 1920x1080 --pos 1440x0 --rotate normal --output "$monitor3" --mode 1920x1080 --pos 3360x0
+        xrandr --output "$monitor1" --mode 1280x720 --pos 0x0 --rotate normal --output "$monitor2" --mode 1920x1080 --pos 1280x0 --rotate normal --output "$monitor3" --mode 1920x1080 --pos 3360x0
         xdotool mousemove --screen 0 2400 540 &
         xdotool click 1 &
         echo "" $(optimus-manager --status | awk 'NR==3 { print $5 }')>'/suckless/dmenu/data/screenSelected'
@@ -65,7 +65,7 @@ function screens {
     fi
 
     if [ "$x" == '' ]; then
-        xrandr --output "$monitor2" --off --output "$monitor1" --mode 1920x1080 --pos 0x0 --rotate normal --output "$monitor3" --mode 1920x1080 --pos 1920x0 --rotate normal
+        xrandr --output "$monitor2" --off --output "$monitor1" --mode 1280x720 --pos 0x0 --rotate normal --output "$monitor3" --mode 1920x1080 --pos 1280x0 --rotate normal
         echo "" $(optimus-manager --status | awk 'NR==3 { print $5 }')>'/suckless/dmenu/data/screenSelected'
     fi
 }
